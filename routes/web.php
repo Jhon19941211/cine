@@ -18,3 +18,12 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('user','UserController');
+
+Route::get('/pago', function () {
+    return view('/pago/pago');
+});
+
+Route::post('/pago', 'SuscripcionController@pago')->name('pago');
+

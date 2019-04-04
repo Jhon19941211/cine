@@ -124,10 +124,8 @@
    
          <li class="active"><a href="index.html"><i class="fas fa-video"></i>   Cartelera</a></li>
          <li class="active"><a href="index.html"><i class="fas fa-film"></i> Tus reservas</a></li>
-         <li class="active"><a href="index.html"><i class="fas fa-users-cog"></i> Perfil</a></li>
+         <li class="active"><a href="{{route('user.index')}}"><i class="fas fa-users-cog"></i> Perfil</a></li>
          <!-- <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li> -->
-
-
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -149,7 +147,7 @@
 
     <!-- Main content -->
     <section class="content">
-
+     @yield('content')
     </section>
     <!-- /.content -->
   </div>
