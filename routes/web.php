@@ -27,3 +27,4 @@ Route::get('/pago', function () {
 
 Route::post('/pago', 'SuscripcionController@pago')->name('pago');
 
+Route::resource('cartelera','CarteleraController');
