@@ -16,13 +16,12 @@ class CreateReservasTable extends Migration
         Schema::create('reservas', function (Blueprint $table) {
             $table->increments('id');
             $table->boolean('estado');
+
             $table->unsignedInteger('silla_id');
-            $table->unsignedInteger('user_id');
-
             $table->foreign('silla_id')->references('id')->on('sillas');
+
+            $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-
-
         });
     }
 

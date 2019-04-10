@@ -17,9 +17,9 @@ class CreateSillasTable extends Migration
             $table->increments('id');
             $table->integer('fila');
             $table->integer('columna');
-            $table->unsignedInteger('proyeccion_id');
 
-            $table->foreign('proyeccion_id')->references('id')->on('proyecciones');
+            $table->unsignedInteger('proyeccion_id');
+            $table->foreign('proyeccion_id')->references('id')->on('proyeccions');
 
         });
     }

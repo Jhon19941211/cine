@@ -13,12 +13,14 @@ class CreateProyeccionesTable extends Migration
      */
     public function up()
     {
-        Schema::create('proyecciones', function (Blueprint $table) {
+        Schema::create('proyeccions', function (Blueprint $table) {
             $table->increments('id');
             $table->dateTime('fecha');
+
             $table->unsignedInteger('sala_id');
-            $table->unsignedInteger('pelicula_id');
             $table->foreign('sala_id')->references('id')->on('salas');
+            
+            $table->unsignedInteger('pelicula_id');            
             $table->foreign('pelicula_id')->references('id')->on('peliculas');
 
         });
@@ -31,6 +33,6 @@ class CreateProyeccionesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('proyecciones');
+        Schema::dropIfExists('proyeccions');
     }
 }

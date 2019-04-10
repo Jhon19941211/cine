@@ -19,7 +19,6 @@ class CreatePeliculasTable extends Migration
             $table->string('genero');
             $table->text('sinopsis');
             $table->integer('id_pelicula');
-
         });
     }
 
