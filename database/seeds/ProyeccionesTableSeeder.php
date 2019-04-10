@@ -17,7 +17,7 @@ class ProyeccionesTableSeeder extends Seeder
 
         foreach ($salas as $sala) {
 
-        	 DB::table('proyecciones')->insert(['fecha' => '2019-04-09 20:00:00','sala_id'=>$sala->id,'pelicula_id'=>1])
+        	 DB::table('proyecciones')->insert(['fecha' => '2019-04-09 20:00:00','sala_id'=>$sala->id,'pelicula_id'=>1]);
         }
   
     }
