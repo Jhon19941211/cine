@@ -15,12 +15,7 @@ class CreateSalasTable extends Migration
     {
         Schema::create('salas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('genero');
-
-            $table->unsignedInteger('cine_id');
-            $table->foreign('cine_id')->references('id')->on('cines');
-
-            $table->timestamps();
+            $table->string('name');
         });
     }
 
