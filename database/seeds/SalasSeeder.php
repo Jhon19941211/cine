@@ -11,12 +11,8 @@ class SalasSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('salas')->insert([
-    		['genero' => 'Sala 1'],
-    		['genero' => 'Sala 2'],
-    		['genero' => 'Sala 3'],
-    		['genero' => 'Sala 4'],
-    		['genero' => 'Sala 5']
-    	]);
+        for ($i=1; $i <= 20; $i++) { 
+            DB::table('salas')->insert([['genero' => 'Sala'.$i]]);
+        } 	
     }
 }

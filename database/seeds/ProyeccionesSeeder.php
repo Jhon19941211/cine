@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Pelicula;
 
 class ProyeccionesSeeder extends Seeder
 {
@@ -13,8 +14,10 @@ class ProyeccionesSeeder extends Seeder
     public function run()
     {
         $salas = DB::table('salas')->get();
-        foreach ($salas as $sala) {
-        	 DB::table('proyeccions')->insert(['fecha' => '2019-04-09 20:00:00','sala_id'=>$sala->id,'pelicula_id'=>1]);
+        $peliculas = Pelicula::all();
+
+        foreach ($salas as $i => $sala) {            
+        	DB::table('proyeccions')->insert(['fecha' => '2019-04-09 20:00:00','sala_id'=>$sala->id,'pelicula_id'=>$peliculas[$i]->id]);
         }
     }
 }

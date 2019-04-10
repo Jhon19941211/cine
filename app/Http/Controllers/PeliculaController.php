@@ -36,22 +36,27 @@ class PeliculaController extends Controller
      */
     public function store(Request $request)
     {   
-        foreach($request->peliculas as $pelicula) {  
-            $datos = [];
-            foreach($pelicula as $clave => $valor) { 
-                if($clave=='id'){   
-                    $datos['id_pelicula']=$valor;
-                }else if($clave=='title'){
-                    $datos['name']=$valor;
-                }else if($clave=='overview'){
-                    $datos['sinopsis']=$valor;
-                }else if($clave=='genre_ids'){
-                    $datos['genero']=$valor[0];
-                }          
+        $hay = Pelicula::all();
+        if (isset($hay)) {
+            foreach($request->peliculas as $pelicula) {  
+                $datos = [];
+                foreach($pelicula as $clave => $valor) { 
+                    if($clave=='id'){   
+                        $datos['id']=$valor;
+                    }else if($clave=='title'){
+                        $datos['name']=$valor;
+                    }else if($clave=='overview'){
+                        $datos['sinopsis']=$valor;
+                    }else if($clave=='genre_ids'){
+                        $datos['genero']=$valor[0];
+                    }          
+                }
+                Pelicula::create($datos);                        
             }
-            Pelicula::create($datos);                        
-        }
-        return response()->json($si);  
+            return response()->json('si');  
+        }else{
+            return response()->json("no");  
+        }        
     }
 
     /**
