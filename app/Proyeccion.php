@@ -8,11 +8,11 @@ class Proyeccion extends Model
 {
     public $timestamps=false;
 
-	protected $fillable = ['pelicula_id', 'sala_id'];
+	protected $fillable = ['fecha_hora_id', 'pelicula_id', 'sala_id'];
 
-    public function fecha_horas()
+    public function fecha_hora()
     {
-        return $this->hasMany('App\Fecha_hora');
+        return $this->belongsTo('App\Fecha_hora');
     }
 
 	public function pelicula()

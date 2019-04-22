@@ -34,87 +34,90 @@
       </div>
       <div class="modal-body">
         <div>
+          <label for="f">Fecha de la función</label>          
+            <select name="f" id="f" class="custom-select">
+          </select>
           <label for="fh">Hora de la función</label>          
-          <select name="fh" id="fh" class="custom-select">
+            <select name="fh" id="fh" class="custom-select">
           </select>
         </div>        
         <div class="container ml-3 mt-5 disable" id="tabla">
-             <table class="table text-center">
-               <tbody>
-                 <tr>
-                   <td>
-                     <label class="checkeable">
-                       <input type="checkbox" class="mycheckbox" id="1" name="checkbox" style="display: none;">          
-                       <i class="fas fa-couch"></i>
-                     </label>
-                   </td>
-                   <td>
-                     <label class="checkeable">
-                       <input type="checkbox" class="mycheckbox" id="2" name="checkbox" style="display: none;">          
-                       <i class="fas fa-couch"></i>
-                     </label>
-                   </td>
-                   <td>
-                    <label class="checkeable">
-                      <input type="checkbox" class="mycheckbox" id="3" name="checkbox" style="display: none;">          
-                      <i class="fas fa-couch"></i>
-                    </label>
-                  </td>
-                  <td>
-                    <label class="checkeable">
-                      <input type="checkbox" class="mycheckbox" id="4" name="checkbox" style="display: none;">          
-                      <i class="fas fa-couch"></i>
-                    </label>
-                  </td>
-                  <td>
-                    <label class="checkeable">
-                      <input type="checkbox" class="mycheckbox" id="5" name="checkbox" style="display: none;">          
-                      <i class="fas fa-couch"></i>
-                    </label>
-                  </td>
-                </tr>
-                <tr>
-                 <td>
-                   <label class="checkeable">
-                     <input type="checkbox" class="mycheckbox" id="6" name="checkbox" style="display: none;">          
-                     <i class="fas fa-couch"></i>
-                   </label>
-                 </td>
-                 <td>
-                   <label class="checkeable">
-                     <input type="checkbox" class="mycheckbox" id="7" name="checkbox" style="display: none;">          
-                     <i class="fas fa-couch"></i>
-                   </label>
-                 </td>
-                 <td>
-                  <label class="checkeable">
-                    <input type="checkbox" class="mycheckbox" id="8" name="checkbox" style="display: none;">          
-                    <i class="fas fa-couch"></i>
-                  </label>
-                </td>
-                <td>
-                  <label class="checkeable">
-                    <input type="checkbox" class="mycheckbox" id="9" name="checkbox" style="display: none;">          
-                    <i class="fas fa-couch"></i>
-                  </label>
-                </td>
-                <td>
-                  <label class="checkeable">
-                    <input type="checkbox" class="mycheckbox" id="10" name="checkbox" style="display: none;">          
-                    <i class="fas fa-couch"></i>
-                  </label>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" id="reservar" class="btn btn-primary">Reservar</button>
-      </div>
-    </div>
-  </div>
+         <table class="table text-center">
+           <tbody>
+             <tr>
+               <td>
+                <label class="checkeable">
+                 <input type="checkbox" class="mycheckbox" id="1" name="checkbox" style="display: none;">          
+                 <i class="fas fa-couch"></i>
+               </label>
+             </td>
+             <td>
+               <label class="checkeable">
+                 <input type="checkbox" class="mycheckbox" id="2" name="checkbox" style="display: none;">          
+                 <i class="fas fa-couch"></i>
+               </label>
+             </td>
+             <td>
+              <label class="checkeable">
+                <input type="checkbox" class="mycheckbox" id="3" name="checkbox" style="display: none;">          
+                <i class="fas fa-couch"></i>
+              </label>
+            </td>
+            <td>
+              <label class="checkeable">
+                <input type="checkbox" class="mycheckbox" id="4" name="checkbox" style="display: none;">          
+                <i class="fas fa-couch"></i>
+              </label>
+            </td>
+            <td>
+              <label class="checkeable">
+                <input type="checkbox" class="mycheckbox" id="5" name="checkbox" style="display: none;">          
+                <i class="fas fa-couch"></i>
+              </label>
+            </td>
+          </tr>
+          <tr>
+           <td>
+             <label class="checkeable">
+               <input type="checkbox" class="mycheckbox" id="6" name="checkbox" style="display: none;">          
+               <i class="fas fa-couch"></i>
+             </label>
+           </td>
+           <td>
+             <label class="checkeable">
+               <input type="checkbox" class="mycheckbox" id="7" name="checkbox" style="display: none;">          
+               <i class="fas fa-couch"></i>
+             </label>
+           </td>
+           <td>
+            <label class="checkeable">
+              <input type="checkbox" class="mycheckbox" id="8" name="checkbox" style="display: none;">          
+              <i class="fas fa-couch"></i>
+            </label>
+          </td>
+          <td>
+            <label class="checkeable">
+              <input type="checkbox" class="mycheckbox" id="9" name="checkbox" style="display: none;">          
+              <i class="fas fa-couch"></i>
+            </label>
+          </td>
+          <td>
+            <label class="checkeable">
+              <input type="checkbox" class="mycheckbox" id="10" name="checkbox" style="display: none;">          
+              <i class="fas fa-couch"></i>
+            </label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>        
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+  <button type="button" id="reservar" class="btn btn-primary">Reservar</button>
+</div>
+</div>
+</div>
 </div>
 
 @endsection

@@ -16,6 +16,9 @@ class CreateProyeccionesTable extends Migration
         Schema::create('proyeccions', function (Blueprint $table) {
             $table->increments('id');
             
+            $table->unsignedInteger('fecha_hora_id');            
+            $table->foreign('fecha_hora_id')->references('id')->on('fecha_horas');
+
             $table->unsignedInteger('pelicula_id');            
             $table->foreign('pelicula_id')->references('id')->on('peliculas');
 

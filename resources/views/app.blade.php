@@ -25,6 +25,9 @@
   <link rel="stylesheet" type="text/css" href="slick/slick.css"/>
   <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
 
+  {{-- TOAST ALERTAS --}}
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <style>
@@ -129,6 +132,9 @@
 
 {{-- CARUSEL --}}
 <script type="text/javascript" src="slick/slick.min.js"></script>
+
+{{-- TOAST ALERTAS --}}
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <!-- SCRIPT CARTELERA -->
 <script src="js/logica_cartelera.js"></script>
