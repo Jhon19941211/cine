@@ -8,10 +8,10 @@ class Fecha_hora extends Model
 {
     public $timestamps=false;
 
-	protected $fillable = ['hora1','fecha', 'proyeccion_id'];
+	protected $fillable = ['hora', 'fecha_inicio', 'fecha_fin'];
 
 	public function proyeccions()
     {
-        return $this->belongsTo('App\Proyeccion');
+        return $this->hasMany('App\Proyeccion');
     }
 }

@@ -15,11 +15,9 @@ class CreateFechaHorasTable extends Migration
     {
         Schema::create('fecha_horas', function (Blueprint $table) {
             $table->increments('id');
-            $table->time('hora1');
-            $table->date('fecha');
-
-            $table->unsignedInteger('proyeccion_id');
-            $table->foreign('proyeccion_id')->references('id')->on('proyeccions');
+            $table->time('hora');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
         });
     }
 

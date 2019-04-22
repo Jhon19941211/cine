@@ -1,3 +1,12 @@
+////////////TOAST/////////////////////////////////////////////
+toastr.options = {
+  "progressBar": true,
+  "closeButton": true,
+  "positionClass": "toast-bottom-right",
+  "timeOut": "2000",
+  "preventDuplicates": true,
+};
+
 //CARGA PELICULAS - CARTELERA Y ESTRENOS
 $( window ).on( "load", function() {
   $.ajax({
@@ -97,40 +106,19 @@ $(".mycheckbox").click(function(e){
 
 
 //BOTON RESERVAR
-$("#reservar").click(function(e){
+$("#reservar").click(function(e){  
+
+  var hora = $('select[name="fh"] option:selected').text();
+
   var guardar = [];
   $("input:checkbox:checked").each(function() {
     var ids = $(this).attr('id');
     var id=parseInt(ids);
 
-    if(id == 6){
+    if (id > 5) {      
       guardar.push({
         'fila':2,
-        'columna':1,
-        'sala_id': sala_id
-      }); 
-    }else if(id==7){
-      guardar.push({
-        'fila':2,
-        'columna':2,
-        'sala_id': sala_id
-      }); 
-    }else if(id==8){
-      guardar.push({
-        'fila':2,
-        'columna':3,
-        'sala_id': sala_id
-      }); 
-    }else if(id==9){
-      guardar.push({
-        'fila':2,
-        'columna':4,
-        'sala_id': sala_id
-      }); 
-    }else if(id==10){
-      guardar.push({
-        'fila':2,
-        'columna':5,
+        'columna': id-5,
         'sala_id': sala_id
       }); 
     }else{
@@ -142,20 +130,31 @@ $("#reservar").click(function(e){
     }
   });
 
-  var objeto = {};
-  objeto.datos = guardar;
-  $.ajax({
-      headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-      url: 'reserva',
-      dataType : 'json',
-      type: 'POST',
-      data: objeto,     
-      success: function(data){        
-        $("#exampleModalScrollable").hide();
-      }
-    });
+  if (guardar.length > 0) {
+    
+    var objeto = {};
+    objeto.datos = guardar;
+    objeto.hora = hora;
+    console.log(objeto);
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+        url: 'reserva',
+        dataType : 'json',
+        type: 'POST',
+        data: objeto,     
+        success: function(data){        
+          $("#exampleModalScrollable").hide();
+        }
+      });
+    
+    $("#exampleModalScrollable").modal("hide");
+  }else{
+    toastr.error('', 'Todos los servicios utilizados');
+  }
+  
+
 });
 
 // // imagenes
