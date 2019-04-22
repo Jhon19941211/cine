@@ -17,11 +17,12 @@ class CreateReservasTable extends Migration
             $table->increments('id');
             $table->boolean('estado');
 
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            
             $table->unsignedInteger('silla_id');
             $table->foreign('silla_id')->references('id')->on('sillas');
 
-            $table->unsignedInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

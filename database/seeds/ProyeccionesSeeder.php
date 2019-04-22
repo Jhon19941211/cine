@@ -13,11 +13,6 @@ class ProyeccionesSeeder extends Seeder
      */
     public function run()
     {
-        $salas = DB::table('salas')->get();
-        $peliculas = Pelicula::all();
-
-        foreach ($salas as $i => $sala) {            
-        	DB::table('proyeccions')->insert(['fecha' => '2019-04-09 20:00:00','sala_id'=>$sala->id,'pelicula_id'=>$peliculas[$i]->id]);
-        }
+        DB::table('proyeccions')->insert(['pelicula_id' => 299537, 'sala_id' => 1]);
     }
 }

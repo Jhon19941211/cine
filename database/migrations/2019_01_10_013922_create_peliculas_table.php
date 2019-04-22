@@ -15,10 +15,9 @@ class CreatePeliculasTable extends Migration
     {
         Schema::create('peliculas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('nombre');
             $table->string('genero');
-            $table->text('sinopsis');
-            // $table->integer('id_pelicula');
+            $table->text('sinopsis')->nullable();;
         });
     }
 

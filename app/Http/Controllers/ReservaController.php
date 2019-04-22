@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Pelicula;
-use App\Sala;
-use App\Proyeccion;
+use Illuminate\Support\Facades\Auth;
+use App\Silla;
+use App\Reserva;
 
-class PeliculaController extends Controller
+
+class ReservaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,27 +37,19 @@ class PeliculaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {           
-        if (Pelicula::all()->isEmpty()) {
-            foreach($request->peliculas as $pelicula) {  
-                $datos = [];
-                foreach($pelicula as $clave => $valor) { 
-                    if($clave=='id'){   
-                        $datos['id']=$valor;
-                    }else if($clave=='title'){
-                        $datos['nombre']=$valor;
-                    }else if($clave=='genre_ids'){
-                        $datos['genero']=$valor[0];
-                    }else if($clave=='overview'){
-                        $datos['sinopsis']=$valor;
-                    }          
-                }
-                Pelicula::create($datos);                        
-            } 
-            return response()->json('si');           
-        }else{        
-            return response()->json('no');
-        }        
+    {        
+        foreach($request->datos as $dato => $valor) {
+            $silla = Silla::create($valor); 
+            $data_reserva=[];
+
+            $data_reserva['estado'] = 1;
+            $data_reserva['user_id'] = Auth::user()->id; 
+            $data_reserva['silla_id'] = $silla->id; 
+                                   
+            Reserva::create($data_reserva);
+
+            // return response()->json($valor); 
+        }
     }
 
     /**
@@ -67,10 +60,7 @@ class PeliculaController extends Controller
      */
     public function show($id)
     {
-        $proyeccion = Proyeccion::where('pelicula_id','=', $id)->get();
-        return response()->json(['proyeccion' => $proyeccion[0],
-                                'sala' => $proyeccion[0]->sala,
-                                'fecha_horas' => $proyeccion[0]->fecha_horas]);        
+        //
     }
 
     /**

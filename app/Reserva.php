@@ -6,18 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reserva extends Model
 {
-    //
-     public $timestamps=false;
-     protected $fillable = ['estado','silla_id'];
+    public $timestamps=false;
+    protected $fillable = ['estado','user_id','silla_id'];
 
-     public function silla()
-	{
-		return $this->belongsTo('App\Silla');
-	}
+    public function silla()
+    {
+    	return $this->belongsTo('App\Silla');
+    }
 
-	public function user()
-	{
-		return $this->belongsTo('App\User');
-	}
-
+    public function user()
+    {
+    	return $this->belongsTo('App\User');
+    }
 }

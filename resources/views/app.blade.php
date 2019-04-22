@@ -6,7 +6,6 @@
   <title>Cine</title>
 
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">  
-  {{-- <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">   --}}
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">  
   <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">  
   <link rel="stylesheet" href="dist/css/AdminLTE.min.css">  
@@ -22,7 +21,18 @@
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
+  {{-- CARUSEL --}}
+  <link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
+
   <meta name="csrf-token" content="{{ csrf_token() }}">
+
+  <style>
+    .slick-prev:before, .slick-next:before { 
+        color:black;
+        font-size: 25px;
+    }
+</style>
 </head>
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
@@ -116,6 +126,9 @@
 <script src="bower_components/fastclick/lib/fastclick.js"></script>
 <script src="dist/js/adminlte.min.js"></script>
 <script src="dist/js/demo.js"></script>
+
+{{-- CARUSEL --}}
+<script type="text/javascript" src="slick/slick.min.js"></script>
 
 <!-- SCRIPT CARTELERA -->
 <script src="js/logica_cartelera.js"></script>

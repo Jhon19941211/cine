@@ -1,5 +1,5 @@
 $.ajax({
-    url: "https://api.themoviedb.org/3/discover/movie?api_key=c1dece2ed8e7859a019d7ccb2d343be6&language=es-CO&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&year=2019",
+    url: "https://api.themoviedb.org/3/movie/now_playing?api_key=c1dece2ed8e7859a019d7ccb2d343be6&language=es-CO&page=1",
     type: "GET",
     success: function(peliculas) {
 
@@ -16,7 +16,7 @@ $.ajax({
             type: 'POST',
             data: send,
             success: function(data) {
-                console.log(data);
+
             }
         });
     }

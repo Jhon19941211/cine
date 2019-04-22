@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Proyeccion extends Model
 {
-    //
-
     public $timestamps=false;
 
-	protected $fillable = ['fecha','sla_id','pelicula_id'];
+	protected $fillable = ['pelicula_id', 'sala_id'];
 
+    public function fecha_horas()
+    {
+        return $this->hasMany('App\Fecha_hora');
+    }
 
 	public function pelicula()
     {
@@ -24,8 +26,4 @@ class Proyeccion extends Model
 	}
 
 
-	public function sillas()
-    {
-        return $this->hasMany('App\Silla');
-    }
 }
