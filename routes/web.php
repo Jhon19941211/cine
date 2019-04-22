@@ -31,4 +31,4 @@ Route::resource('reserva','ReservaController');
 
 Route::get('/proyeccion', function () {
     return view('/administracion/add');
-});
+})->name('proyeccion');
