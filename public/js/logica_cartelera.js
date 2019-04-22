@@ -35,7 +35,7 @@ function asd(peliculas, generos){
 						'<div class="card-body">'+
 						'<h5 class="card-title">'+pelicula.original_title+'</h5>'+
 						'<p class="card-text">'+pelicula.overview+'</p>'+
-						'<a href="#" class="btn btn-primary">Reservar</a>'+
+						'<a href="#" id="'+pelicula.id+'" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable">Ver horarios</a>'+						
 						'</div>'+
 						'</div>'+
 						'</div>'+
@@ -54,8 +54,8 @@ function asd(peliculas, generos){
 												'<img src="https://image.tmdb.org/t/p/w500/'+pelicula.backdrop_path+'" class="d-block w-100" alt="...">'+
 												'<div class="card-body">'+
 													'<h5 class="card-title">'+pelicula.original_title+'</h5>'+
-													'<p class="card-text">'+pelicula.overview+'</p>'+
-													'<a href="#" class="btn btn-primary">Reservar</a>'+
+													'<p class="card-text">'+pelicula.overview+'</p>'+													
+													'<a href="#" id="'+pelicula.id+'" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable">Ver horarios</a>'+
 												'</div>'+
 											'</div>'+
 										'</div>'+

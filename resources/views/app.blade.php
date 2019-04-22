@@ -21,6 +21,8 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
@@ -117,6 +119,7 @@
 
 <!-- SCRIPT CARTELERA -->
 <script src="js/logica_cartelera.js"></script>
+<script src="js/logica_pelicula.js"></script>
 
 </body>
 </html>

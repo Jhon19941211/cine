@@ -9,29 +9,29 @@ use Stripe\Charge;
 
 class SuscripcionController extends Controller
 {
-   public function pago(Request $request)
-    {
+	public function pago(Request $request)
+	{
 
-	     try {
- 
-	           Stripe::setApiKey(config('services.stripe.secret'));
+		try {
+			
+			Stripe::setApiKey(config('services.stripe.secret'));
 
-		        $customer = Customer::create(array(
-		                'email' => $request->stripeEmail,
-		                'source' => $request->stripeToken
-		            ));
+			$customer = Customer::create(array(
+				'email' => $request->stripeEmail,
+				'source' => $request->stripeToken
+			));
 
-		        $charge = Charge::create(array(
-		                'customer' => $customer->id,
-		                'amount' => 426636,
-		                'currency' => 'mxn'
-		            ));
+			$charge = Charge::create(array(
+				'customer' => $customer->id,
+				'amount' => 426636,
+				'currency' => 'mxn'
+			));
 
-                 return 'Cargo exitoso!';
+			return 'Cargo exitoso!';
 
-        }catch (\Exception $ex){
+		}catch (\Exception $ex){
 
-            return $ex->getMessage();
-        }
-  }
+			return $ex->getMessage();
+		}
+	}
 }
