@@ -15,14 +15,12 @@ class CreateProyeccionesTable extends Migration
     {
         Schema::create('proyeccions', function (Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('fecha');
-
-            $table->unsignedInteger('sala_id');
-            $table->foreign('sala_id')->references('id')->on('salas');
             
             $table->unsignedInteger('pelicula_id');            
             $table->foreign('pelicula_id')->references('id')->on('peliculas');
 
+            $table->unsignedInteger('sala_id');
+            $table->foreign('sala_id')->references('id')->on('salas');
         });
     }
 

@@ -6,20 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Silla extends Model
 {
-    //
-     public $timestamps=false;
-     protected $fillable = ['fila','columna','proyeccion_id'];
+	public $timestamps=false;
+	protected $fillable = ['fila','columna','sala_id'];
 
-
-     public function proyeccion()
+	public function sala()
 	{
-		return $this->belongsTo('App\Proyeccion');
+		return $this->belongsTo('App\Sala');
 	}
-
 
 	public function reservas()
 	{
-		  return $this->hasMany('App\Reserva');
+		return $this->hasMany('App\Reserva');
 	}
-
 }

@@ -2,8 +2,25 @@
 
 @section('content')
 
-<div class="container" id="papa">
+<style>
+  .disable{
+    pointer-events: none;
+    opacity: 0.4;
+  }
 
+  .c{
+    background: orange;
+  }
+</style>
+
+<div class="container pl-5 pr-5 pt-5" id="papa">
+  <h4>CARTELERA SEMANAL</h4>
+  <div class="pelis">
+  </div>
+
+  <h4 class="mt-5">PREVENTA / PRÓXIMOS ESTRENOS</h4>
+  <div class="pelis1">
+  </div>
 </div>
 
 <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
@@ -16,11 +33,85 @@
         </button>
       </div>
       <div class="modal-body">
-        ...
+        <div>
+          <label for="fh">Hora de la función</label>          
+          <select name="fh" id="fh" class="custom-select">
+          </select>
+        </div>        
+        <div class="container ml-3 mt-5 disable" id="tabla">
+             <table class="table text-center">
+               <tbody>
+                 <tr>
+                   <td>
+                     <label class="checkeable">
+                       <input type="checkbox" class="mycheckbox" id="1" name="checkbox" style="display: none;">          
+                       <i class="fas fa-couch"></i>
+                     </label>
+                   </td>
+                   <td>
+                     <label class="checkeable">
+                       <input type="checkbox" class="mycheckbox" id="2" name="checkbox" style="display: none;">          
+                       <i class="fas fa-couch"></i>
+                     </label>
+                   </td>
+                   <td>
+                    <label class="checkeable">
+                      <input type="checkbox" class="mycheckbox" id="3" name="checkbox" style="display: none;">          
+                      <i class="fas fa-couch"></i>
+                    </label>
+                  </td>
+                  <td>
+                    <label class="checkeable">
+                      <input type="checkbox" class="mycheckbox" id="4" name="checkbox" style="display: none;">          
+                      <i class="fas fa-couch"></i>
+                    </label>
+                  </td>
+                  <td>
+                    <label class="checkeable">
+                      <input type="checkbox" class="mycheckbox" id="5" name="checkbox" style="display: none;">          
+                      <i class="fas fa-couch"></i>
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                 <td>
+                   <label class="checkeable">
+                     <input type="checkbox" class="mycheckbox" id="6" name="checkbox" style="display: none;">          
+                     <i class="fas fa-couch"></i>
+                   </label>
+                 </td>
+                 <td>
+                   <label class="checkeable">
+                     <input type="checkbox" class="mycheckbox" id="7" name="checkbox" style="display: none;">          
+                     <i class="fas fa-couch"></i>
+                   </label>
+                 </td>
+                 <td>
+                  <label class="checkeable">
+                    <input type="checkbox" class="mycheckbox" id="8" name="checkbox" style="display: none;">          
+                    <i class="fas fa-couch"></i>
+                  </label>
+                </td>
+                <td>
+                  <label class="checkeable">
+                    <input type="checkbox" class="mycheckbox" id="9" name="checkbox" style="display: none;">          
+                    <i class="fas fa-couch"></i>
+                  </label>
+                </td>
+                <td>
+                  <label class="checkeable">
+                    <input type="checkbox" class="mycheckbox" id="10" name="checkbox" style="display: none;">          
+                    <i class="fas fa-couch"></i>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Reservar</button>
+        <button type="button" id="reservar" class="btn btn-primary">Reservar</button>
       </div>
     </div>
   </div>

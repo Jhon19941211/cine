@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSalasTable extends Migration
+class CreateFechaHorasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class CreateSalasTable extends Migration
      */
     public function up()
     {
-        Schema::create('salas', function (Blueprint $table) {
+        Schema::create('fecha_horas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('genero');
+            $table->time('hora1');
+            $table->date('fecha');
+
+            $table->unsignedInteger('proyeccion_id');
+            $table->foreign('proyeccion_id')->references('id')->on('proyeccions');
         });
     }
 
@@ -26,6 +30,6 @@ class CreateSalasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('salas');
+        Schema::dropIfExists('fecha_horas');
     }
 }

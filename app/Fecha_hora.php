@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pelicula extends Model
+class Fecha_hora extends Model
 {
     public $timestamps=false;
 
-	protected $fillable = ['id', 'nombre','genero','sinopsis'];
+	protected $fillable = ['hora1','fecha', 'proyeccion_id'];
 
 	public function proyeccions()
     {
-        return $this->hasMany('App\Proyeccion');
+        return $this->belongsTo('App\Proyeccion');
     }
 }

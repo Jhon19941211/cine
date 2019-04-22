@@ -27,3 +27,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('cartelera','CarteleraController');
 Route::resource('pelicula','PeliculaController');
+Route::resource('reserva','ReservaController');

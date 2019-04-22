@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSillasTable extends Migration
+class CreateSalasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateSillasTable extends Migration
      */
     public function up()
     {
-        Schema::create('sillas', function (Blueprint $table) {
+        Schema::create('salas', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('fila');
-            $table->integer('columna');
-
-            $table->unsignedInteger('sala_id');
-            $table->foreign('sala_id')->references('id')->on('salas');
+            $table->integer('cant_filas');
+            $table->integer('cant_columnas');
         });
     }
 
@@ -30,6 +27,6 @@ class CreateSillasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sillas');
+        Schema::dropIfExists('salas');
     }
 }
