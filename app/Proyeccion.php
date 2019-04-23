@@ -21,9 +21,12 @@ class Proyeccion extends Model
     }
 
 	public function sala()
-	{
-		return $this->belongsTo('App\Sala');
-	}
+    {
+        return $this->belongsTo('App\Sala');
+    }
 
-
+    public function reservas()
+    {
+        return $this->hasMany('App\Reserva');
+    }
 }

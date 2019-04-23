@@ -8,6 +8,7 @@ use App\Pelicula;
 use App\Sala;
 use App\Proyeccion;
 use App\Fecha_hora;
+use App\Reserva;
 
 class PeliculaController extends Controller
 {
@@ -83,8 +84,16 @@ class PeliculaController extends Controller
             }
         }
 
-        $proyeccion = Proyeccion::where('pelicula_id','=', $id)->get();
-        return response()->json(['fechas' => $fechas, 'sala' => $proyeccion[0]->sala]);      
+        $proyeccion = Proyeccion::with('fecha_hora')->where('pelicula_id','=', $id)->get();
+        return response()->json(['fechas' => $fechas, 'proyeccion' => $proyeccion]);      
+    }
+
+    public function marcados($id, $id2){
+        $fh = Fecha_hora::where('hora', '=', $id2)->get();
+        $proyeccion = Proyeccion::where('fecha_hora_id', '=', $fh[0]->id)->where('pelicula_id', '=', $id)->get();
+        $reserva = Reserva::with('silla')->where('proyeccion_id', '=', $proyeccion[0]->id)->get();
+
+        return response()->json($reserva);  
     }
 
 
@@ -96,7 +105,7 @@ class PeliculaController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**

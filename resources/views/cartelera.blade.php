@@ -11,6 +11,12 @@
   .c{
     background: orange;
   }
+
+  .unselectable{
+    background-color: #ddd;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
 </style>
 
 <div class="container pl-5 pr-5 pt-5" id="papa">

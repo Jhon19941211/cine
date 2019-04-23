@@ -65,13 +65,19 @@ $( window ).on( "load", function() {
 });
 
 //FUNCION DE MODEL RESERVAR - CARGA HORARIOS
-var sala_id;
-
+var proyeccion;
+let id;
 function modal_reservar(obj){
-  let id = obj.id;
+  id = obj.id;
   $('#tabla').addClass('disable');
   $('#fh').empty().append('<option disabled selected="selected" value="">Selecciona...</option>')
   $('#f').empty().append('<option disabled selected="selected" value="">Selecciona...</option>')
+
+  $('.mycheckbox').each(function(){
+    $(this).parent().parent().removeClass('unselectable');
+    $(this).parent().parent().removeClass('c');
+    this.checked=false;    
+  });
 
   $.ajax({
   	url: 'pelicula/'+id,
@@ -79,7 +85,7 @@ function modal_reservar(obj){
   	type: 'GET',	
   	success: function(data){
   		console.log(data);
-      sala_id = data.sala.id;  
+      proyeccion = data.proyeccion;  
 
       for (var i = 0; i < data.fechas.length; i++) {
         $('#f').append(
@@ -92,18 +98,61 @@ function modal_reservar(obj){
 
 //CARGA HORAS
 $("#f").change(event =>{
-    $('#fh').append(
-      '<option>18:00:00</option>'+
-      '<option>20:00:00</option>'+
-      '<option>22:00:00</option>'
-    );    
+  $('#tabla').addClass('disable'); 
+  $('.mycheckbox').each(function(){
+    $(this).parent().parent().removeClass('unselectable');
+    $(this).parent().parent().removeClass('c');
+    this.checked=false;
 
+  });
+
+  $('#fh').empty().append('<option disabled selected="selected" value="">Selecciona...</option>')
+  $('#fh').append(
+    '<option>18:00:00</option>'+
+    '<option>20:00:00</option>'+
+    '<option>22:00:00</option>'
+  );        
 });
 
 //HABILITA EL DIV SILLAS
 $("#fh").change(event =>{
-  $('#tabla').removeClass('disable');     
+  $('#tabla').removeClass('disable'); 
+  
+  $('.mycheckbox').each(function(){
+    $(this).parent().parent().removeClass('unselectable');
+    $(this).parent().parent().removeClass('c');
+    this.checked=false;      
+  });
 
+  var hora = $('select[name="fh"] option:selected').text();
+
+  $.ajax({
+    url: 'marcados/'+id+'/'+hora,
+    dataType : 'json',
+    type: 'GET',  
+    success: function(data){
+      console.log(data);
+
+      for (var i = 0; i < data.length; i++) {
+        var silla = data[i].silla;
+
+        $('.mycheckbox').each(function(){
+          var num = $(this)[0].id;  
+
+          if(silla.fila == 2){
+            if(silla.columna == num-5){
+              $(this).parent().parent().addClass('unselectable');
+            }
+          }else{
+            if(silla.columna == num){
+              $(this).parent().parent().addClass('unselectable');
+            }
+          }
+        }); 
+      }
+              
+    }
+  });
 });
 
 //SILLAS A RESERVAR
@@ -119,8 +168,21 @@ $(".mycheckbox").click(function(e){
 //BOTON RESERVAR
 $("#reservar").click(function(e){  
 
+  var sala_id;
+  var proyeccion_id;
+  var fecha_hora_id;
+
   var fecha = $('select[name="f"] option:selected').text();
   var hora = $('select[name="fh"] option:selected').text();
+
+  //BUSCA LA PROYECCION SEGUN LA HORA
+  for (var i = 0; i < proyeccion.length; i++) {
+    var p = proyeccion[i];
+    if (p.fecha_hora.hora == hora) {
+      sala_id = p.sala_id;
+      proyeccion_id = p.id;
+    }
+  }
 
   var guardar = [];
   $("input:checkbox:checked").each(function() {
@@ -145,32 +207,32 @@ $("#reservar").click(function(e){
     this.checked=false;
   });
 
-  if (guardar.length > 0) {
+  if (fecha != "" && hora!= "" && guardar.length > 0) {
     
     var objeto = {};
     objeto.datos = guardar;
-    objeto.fecha = fecha;
-    objeto.hora = hora;
+
+    objeto.proyeccion_id = proyeccion_id;
+
     console.log(objeto);
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
-        url: 'reserva',
-        dataType : 'json',
-        type: 'POST',
-        data: objeto,     
-        success: function(data){ 
-            console.log(data);
-        }
-      });
+
+    // $.ajax({
+    //   headers: {
+    //       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     },
+    //   url: 'reserva',
+    //   dataType : 'json',
+    //   type: 'POST',
+    //   data: objeto,     
+    //   success: function(data){ 
+    //       console.log(data);
+    //   }
+    // });
     
     $("#exampleModalScrollable").modal("hide");
   }else{
-    toastr.error('', 'Todos los servicios utilizados');
+    toastr.error('', 'Digite los campos solicitados');
   }
-  
-
 });
 
 // // imagenes
