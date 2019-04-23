@@ -48,8 +48,9 @@ class ReservaController extends Controller
                                    
             Reserva::create($data_reserva);
 
-            // return response()->json($valor); 
         }
+
+        return response()->json($request->datos); 
     }
 
     /**

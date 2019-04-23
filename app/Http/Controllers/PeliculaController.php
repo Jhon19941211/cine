@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Pelicula;
 use App\Sala;
 use App\Proyeccion;
+use App\Fecha_hora;
 
 class PeliculaController extends Controller
 {
@@ -67,11 +69,24 @@ class PeliculaController extends Controller
      */
     public function show($id)
     {
+        $fechas = array();
+        $date = Carbon::now();
+        $fin = Carbon::now()->endOfWeek();
+    
+        while (true) {
+            if ($date->day < $fin->day) {
+                array_push($fechas, $date->toDateString());                  
+                $date->addDay();  
+            }else{
+                array_push($fechas, $date->toDateString());
+                break;
+            }
+        }
+
         $proyeccion = Proyeccion::where('pelicula_id','=', $id)->get();
-        return response()->json(['proyeccion' => $proyeccion[0],
-                                'sala' => $proyeccion[0]->sala,
-                                'fecha_horas' => $proyeccion[0]->fecha_horas]);        
+        return response()->json(['fechas' => $fechas, 'sala' => $proyeccion[0]->sala]);      
     }
+
 
     /**
      * Show the form for editing the specified resource.

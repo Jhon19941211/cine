@@ -64,12 +64,14 @@ $( window ).on( "load", function() {
   });
 });
 
-//FUNCION DE MODEL RESERVAR
+//FUNCION DE MODEL RESERVAR - CARGA HORARIOS
 var sala_id;
+
 function modal_reservar(obj){
   let id = obj.id;
   $('#tabla').addClass('disable');
   $('#fh').empty().append('<option disabled selected="selected" value="">Selecciona...</option>')
+  $('#f').empty().append('<option disabled selected="selected" value="">Selecciona...</option>')
 
   $.ajax({
   	url: 'pelicula/'+id,
@@ -78,16 +80,25 @@ function modal_reservar(obj){
   	success: function(data){
   		console.log(data);
       sala_id = data.sala.id;  
-      var fh = data.fecha_horas;
 
-      for (var i = 0; i < fh.length; i++) {
-        $('#fh').append(
-          '<option value="'+fh[i].id+'">'+fh[i].hora1+'</option>'
+      for (var i = 0; i < data.fechas.length; i++) {
+        $('#f').append(
+          '<option>'+data.fechas[i]+'</option>'
         ); 
       }  		 		
   	}
   });
 }
+
+//CARGA HORAS
+$("#f").change(event =>{
+    $('#fh').append(
+      '<option>18:00:00</option>'+
+      '<option>20:00:00</option>'+
+      '<option>22:00:00</option>'
+    );    
+
+});
 
 //HABILITA EL DIV SILLAS
 $("#fh").change(event =>{
@@ -108,6 +119,7 @@ $(".mycheckbox").click(function(e){
 //BOTON RESERVAR
 $("#reservar").click(function(e){  
 
+  var fecha = $('select[name="f"] option:selected').text();
   var hora = $('select[name="fh"] option:selected').text();
 
   var guardar = [];
@@ -128,12 +140,16 @@ $("#reservar").click(function(e){
         'sala_id': sala_id
       }); 
     }
+
+    $(this).parent().parent().removeClass('c');
+    this.checked=false;
   });
 
   if (guardar.length > 0) {
     
     var objeto = {};
     objeto.datos = guardar;
+    objeto.fecha = fecha;
     objeto.hora = hora;
     console.log(objeto);
     $.ajax({
@@ -144,8 +160,8 @@ $("#reservar").click(function(e){
         dataType : 'json',
         type: 'POST',
         data: objeto,     
-        success: function(data){        
-          $("#exampleModalScrollable").hide();
+        success: function(data){ 
+            console.log(data);
         }
       });
     
