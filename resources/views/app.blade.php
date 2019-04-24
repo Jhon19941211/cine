@@ -91,8 +91,8 @@
 
         <li><a style="color: black; text-decoration: none;" href="{{ route('cartelera.index') }}"><i class="fas fa-video">&nbsp;&nbsp;</i>Cartelera</a></li>
         <li><a style="color: black; text-decoration: none;" href="#"><i class="fas fa-film">&nbsp;&nbsp;</i> Tus reservas</a></li>
-        <li><a style="color: black; text-decoration: none;" href="{{ route('user.index') }}"><i class="fas fa-users-cog">&nbsp;&nbsp;</i> Perfil</a></li>     
-        <li><a style="color: black; text-decoration: none;" href="{{ route('proyeccion') }}"><i class="fas fa-users-cog">&nbsp;&nbsp;</i> Administración</a></li>    
+        <li><a style="color: black; text-decoration: none;" href="{{ route('user.index') }}"><i class="fas fa-users-cog">&nbsp;&nbsp;</i> Perfil</a></li>  
+        <li><a style="color: black; text-decoration: none;" href="{{ route('proyeccion.index') }}"><i class="fas fa-users-cog">&nbsp;&nbsp;</i> Administración</a></li>          
       </ul>
     </section>    
   </aside>

@@ -29,6 +29,7 @@ Route::resource('cartelera','CarteleraController');
 Route::resource('pelicula','PeliculaController');
 Route::resource('reserva','ReservaController');
 
-Route::get('/proyeccion', function () {
-    return view('/administracion/add');
-})->name('proyeccion');
+Route::resource('proyeccion','ProyeccionController');
+
+Route::get('/listar', 'ProyeccionController@listar')->name('listar');
+

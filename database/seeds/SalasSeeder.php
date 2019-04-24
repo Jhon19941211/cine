@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-class Salas1TableSeeder extends Seeder
+class SalasSeeder extends Seeder
 {
     /**
      * Run the database seeds.
