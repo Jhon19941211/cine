@@ -216,18 +216,18 @@ $("#reservar").click(function(e){
 
     console.log(objeto);
 
-    // $.ajax({
-    //   headers: {
-    //       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //     },
-    //   url: 'reserva',
-    //   dataType : 'json',
-    //   type: 'POST',
-    //   data: objeto,     
-    //   success: function(data){ 
-    //       console.log(data);
-    //   }
-    // });
+    $.ajax({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+      url: 'reserva',
+      dataType : 'json',
+      type: 'POST',
+      data: objeto,     
+      success: function(data){ 
+          console.log(data);
+      }
+    });
     
     $("#exampleModalScrollable").modal("hide");
   }else{
