@@ -67,6 +67,7 @@ $( window ).on( "load", function() {
 //FUNCION DE MODEL RESERVAR - CARGA HORARIOS
 var proyeccion;
 let id;
+var objeto_horarios = {};
 function modal_reservar(obj){
   id = obj.id;
   $('#tabla').addClass('disable');
@@ -87,11 +88,45 @@ function modal_reservar(obj){
   		console.log(data);
       proyeccion = data.proyeccion;  
 
-      for (var i = 0; i < data.fechas.length; i++) {
-        $('#f').append(
-          '<option>'+data.fechas[i]+'</option>'
-        ); 
-      }  		 		
+      objeto_horarios = {};
+
+      for (var i = 0; i < proyeccion.length; i++) {
+        
+        var horarios = [];
+
+        var fecha1 = proyeccion[i].fecha_hora;
+        horarios.push({
+          'fecha': fecha1.fecha,
+        });
+        horarios.push({
+          'hora': fecha1.hora,
+        }); 
+
+        for (var j = i+1; j < proyeccion.length; j++) {
+          var fecha2 = proyeccion[j].fecha_hora;
+          if (fecha1.fecha == fecha2.fecha) {
+            horarios.push({
+              'hora': fecha2.hora,
+            }); 
+            i++;
+          }else{
+            objeto_horarios[i]=horarios;
+            break;
+          }
+        }
+        objeto_horarios[i]=horarios;
+      }
+      
+      console.log(objeto_horarios);
+
+      $.each(objeto_horarios, function(i,item){
+        $.each(item, function(i,item1){
+          $('#f').append(
+              '<option>'+item1.fecha+'</option>'
+          );
+          return false;
+        });         
+      });		 		
   	}
   });
 }
@@ -103,15 +138,21 @@ $("#f").change(event =>{
     $(this).parent().parent().removeClass('unselectable');
     $(this).parent().parent().removeClass('c');
     this.checked=false;
-
   });
 
+  var selec = $('select[name="f"] option:selected').text();
+
   $('#fh').empty().append('<option disabled selected="selected" value="">Selecciona...</option>')
-  $('#fh').append(
-    '<option>18:00:00</option>'+
-    '<option>20:00:00</option>'+
-    '<option>22:00:00</option>'
-  );        
+
+  $.each(objeto_horarios, function(i,item){
+    if (item[0].fecha==selec) {
+      for (var i = 1; i < item.length; i++) {
+        $('#fh').append(
+          '<option>'+item[i].hora+'</option>'
+        );
+      }
+    }          
+  });       
 });
 
 //HABILITA EL DIV SILLAS

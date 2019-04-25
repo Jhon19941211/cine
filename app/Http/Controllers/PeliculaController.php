@@ -70,22 +70,8 @@ class PeliculaController extends Controller
      */
     public function show($id)
     {
-        $fechas = array();
-        $date = Carbon::now();
-        $fin = Carbon::now()->endOfWeek();
-    
-        while (true) {
-            if ($date->day < $fin->day) {
-                array_push($fechas, $date->toDateString());                  
-                $date->addDay();  
-            }else{
-                array_push($fechas, $date->toDateString());
-                break;
-            }
-        }
-
-        $proyeccion = Proyeccion::with('fecha_hora')->where('pelicula_id','=', $id)->get();
-        return response()->json(['fechas' => $fechas, 'proyeccion' => $proyeccion]);      
+        $proyeccion = Proyeccion::orderBy('fecha_hora_id','ASC')->with('fecha_hora')->where('pelicula_id','=', $id)->get();
+        return response()->json(['proyeccion' => $proyeccion]);      
     }
 
     public function marcados($id, $id2){
