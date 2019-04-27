@@ -71,12 +71,16 @@ class PeliculaController extends Controller
     public function show($id)
     {
         $proyeccion = Proyeccion::orderBy('fecha_hora_id','ASC')->with('fecha_hora')->where('pelicula_id','=', $id)->get();
+        if(count($proyeccion)<1){
+            return response()->json('no');      
+        }
         return response()->json(['proyeccion' => $proyeccion]);      
     }
 
-    public function marcados($id, $id2){
-        $fh = Fecha_hora::where('hora', '=', $id2)->get();
-        $proyeccion = Proyeccion::where('fecha_hora_id', '=', $fh[0]->id)->where('pelicula_id', '=', $id)->get();
+    public function marcados($pelicula_id, $fecha, $hora){
+
+        $fecha_hora = Fecha_hora::where('fecha', '=', $fecha)->where('hora', '=', $hora)->get();
+        $proyeccion = Proyeccion::where('fecha_hora_id', '=', $fecha_hora[0]->id)->where('pelicula_id', '=', $pelicula_id)->get();
         $reserva = Reserva::with('silla')->where('proyeccion_id', '=', $proyeccion[0]->id)->get();
 
         return response()->json($reserva);  

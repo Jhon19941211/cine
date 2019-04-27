@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Silla;
 use App\Reserva;
+use App\Proyeccion;
 
 
 class ReservaController extends Controller
@@ -49,7 +50,8 @@ class ReservaController extends Controller
                                    
             Reserva::create($data_reserva);
         }
-        return response()->json($request); 
+        $nombre_pelicula = Proyeccion::find($request->proyeccion_id)->pelicula->nombre;
+        return response()->json($nombre_pelicula); 
     }
 
     /**

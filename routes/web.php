@@ -29,5 +29,5 @@ Route::resource('cartelera','CarteleraController');
 Route::resource('pelicula','PeliculaController');
 
 Route::resource('reserva','ReservaController');
-Route::get('marcados/{id}/{id2}', 'PeliculaController@marcados');
+Route::get('marcados/{id}/{id2}/{id3}', 'PeliculaController@marcados');
 

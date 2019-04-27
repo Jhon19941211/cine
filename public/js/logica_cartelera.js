@@ -85,48 +85,54 @@ function modal_reservar(obj){
   	dataType : 'json',
   	type: 'GET',	
   	success: function(data){
-  		console.log(data);
-      proyeccion = data.proyeccion;  
-
-      objeto_horarios = {};
-
-      for (var i = 0; i < proyeccion.length; i++) {
-        
-        var horarios = [];
-
-        var fecha1 = proyeccion[i].fecha_hora;
-        horarios.push({
-          'fecha': fecha1.fecha,
-        });
-        horarios.push({
-          'hora': fecha1.hora,
-        }); 
-
-        for (var j = i+1; j < proyeccion.length; j++) {
-          var fecha2 = proyeccion[j].fecha_hora;
-          if (fecha1.fecha == fecha2.fecha) {
-            horarios.push({
-              'hora': fecha2.hora,
-            }); 
-            i++;
-          }else{
-            objeto_horarios[i]=horarios;
-            break;
-          }
-        }
-        objeto_horarios[i]=horarios;
+      console.log(data);
+  		if(data=='no'){        
+        toastr.error('', 'No hay proyecciones para esta pelicula');
+        $("#exampleModalScrollable").modal("hide");
       }
-      
-      console.log(objeto_horarios);
+      else
+      {
+        proyeccion = data.proyeccion;  
 
-      $.each(objeto_horarios, function(i,item){
-        $.each(item, function(i,item1){
-          $('#f').append(
-              '<option>'+item1.fecha+'</option>'
-          );
-          return false;
-        });         
-      });		 		
+        objeto_horarios = {};
+
+        for (var i = 0; i < proyeccion.length; i++) {
+          
+          var horarios = [];
+
+          var fecha1 = proyeccion[i].fecha_hora;
+          horarios.push({
+            'fecha': fecha1.fecha,
+          });
+          horarios.push({
+            'hora': fecha1.hora,
+          }); 
+
+          for (var j = i+1; j < proyeccion.length; j++) {
+            var fecha2 = proyeccion[j].fecha_hora;
+            if (fecha1.fecha == fecha2.fecha) {
+              horarios.push({
+                'hora': fecha2.hora,
+              }); 
+              i++;
+            }else{
+              objeto_horarios[i]=horarios;
+              break;
+            }
+          }
+          objeto_horarios[i]=horarios;
+        }
+
+        $.each(objeto_horarios, function(i,item){
+          $.each(item, function(i,item1){
+            $('#f').append(
+                '<option>'+item1.fecha+'</option>'
+            );
+            return false;
+          });         
+        }); 
+      }
+      	 		
   	}
   });
 }
@@ -165,10 +171,11 @@ $("#fh").change(event =>{
     this.checked=false;      
   });
 
+  var fecha = $('select[name="f"] option:selected').text();
   var hora = $('select[name="fh"] option:selected').text();
 
   $.ajax({
-    url: 'marcados/'+id+'/'+hora,
+    url: 'marcados/'+id+'/'+fecha+'/'+hora,
     dataType : 'json',
     type: 'GET',  
     success: function(data){
@@ -219,7 +226,7 @@ $("#reservar").click(function(e){
   //BUSCA LA PROYECCION SEGUN LA HORA
   for (var i = 0; i < proyeccion.length; i++) {
     var p = proyeccion[i];
-    if (p.fecha_hora.hora == hora) {
+    if (p.fecha_hora.fecha == fecha && p.fecha_hora.hora == hora) {
       sala_id = p.sala_id;
       proyeccion_id = p.id;
     }
@@ -252,10 +259,7 @@ $("#reservar").click(function(e){
     
     var objeto = {};
     objeto.datos = guardar;
-
     objeto.proyeccion_id = proyeccion_id;
-
-    console.log(objeto);
 
     $.ajax({
       headers: {
@@ -266,7 +270,7 @@ $("#reservar").click(function(e){
       type: 'POST',
       data: objeto,     
       success: function(data){ 
-          console.log(data);
+          toastr.success('', 'Acabas de reservar '+ guardar.length+' boletos para '+data);
       }
     });
     
