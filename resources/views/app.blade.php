@@ -25,6 +25,10 @@
   <link rel="stylesheet" type="text/css" href="slick/slick.css"/>
   <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
 
+  {{-- DATATABLES --}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+
   {{-- TOAST ALERTAS --}}
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
@@ -134,12 +138,17 @@
 {{-- CARUSEL --}}
 <script type="text/javascript" src="slick/slick.min.js"></script>
 
+{{-- DATATABLES --}}
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
 {{-- TOAST ALERTAS --}}
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <!-- SCRIPT CARTELERA -->
 <script src="js/logica_cartelera.js"></script>
 <script src="js/logica_pelicula.js"></script>
+<script src="js/logica_proyeccion.js"></script>
 
 </body>
 </html>

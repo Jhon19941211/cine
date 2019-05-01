@@ -27,9 +27,16 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('cartelera','CarteleraController');
 Route::resource('pelicula','PeliculaController');
+
 Route::resource('reserva','ReservaController');
 
 Route::resource('proyeccion','ProyeccionController');
 
-Route::get('/listar', 'ProyeccionController@listar')->name('listar');
+Route::get('listar', 'ProyeccionController@listar');
+Route::get('/list', 'ProyeccionController@vistaProyeccion')->name('list');
+Route::get('marcados/{id}/{id2}', 'PeliculaController@marcados');
+
+Route::post('proyeccion/listar', 'ProyeccionController@listarPeliculas');
+Route::post('proyeccion/listarSalas', 'ProyeccionController@listarSalas');
+Route::post('proyeccion/actualizar', 'ProyeccionController@actualizar')->name('actualizar');
 

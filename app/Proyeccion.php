@@ -8,7 +8,7 @@ class Proyeccion extends Model
 {
     public $timestamps=false;
 
-	protected $fillable = ['fecha_hora_id', 'pelicula_id', 'sala_id'];
+	protected $fillable = ['id','fecha_hora_id', 'pelicula_id', 'sala_id'];
 
     public function fecha_hora()
     {
@@ -21,9 +21,12 @@ class Proyeccion extends Model
     }
 
 	public function sala()
-	{
-		return $this->belongsTo('App\Sala');
-	}
+    {
+        return $this->belongsTo('App\Sala');
+    }
 
-
+    public function reservas()
+    {
+        return $this->hasMany('App\Reserva');
+    }
 }

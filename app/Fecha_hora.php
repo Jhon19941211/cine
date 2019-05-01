@@ -8,7 +8,7 @@ class Fecha_hora extends Model
 {
     public $timestamps=false;
 
-	protected $fillable = ['hora', 'fecha_inicio', 'fecha_fin'];
+	protected $fillable = ['hora', 'fecha'];
 
 	public function proyeccions()
     {

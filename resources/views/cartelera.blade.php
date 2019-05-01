@@ -11,6 +11,12 @@
   .c{
     background: orange;
   }
+
+  .unselectable{
+    background-color: #ddd;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
 </style>
 
 <div class="container pl-5 pr-5 pt-5" id="papa">
@@ -35,13 +41,14 @@
       <div class="modal-body">
         <div>
           <label for="f">Fecha de la función</label>          
-            <select name="f" id="f" class="custom-select">
+          <select name="f" id="f" class="custom-select">
+
           </select>
-          <label for="fh">Hora de la función</label>          
-            <select name="fh" id="fh" class="custom-select">
+          <label class="mt-2" for="fh">Hora de la función</label>          
+          <select name="fh" id="fh" class="custom-select">
           </select>
         </div>        
-        <div class="container ml-3 mt-5 disable" id="tabla">
+        <div class="container mt-5 disable" id="tabla">
          <table class="table text-center">
            <tbody>
              <tr>

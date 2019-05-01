@@ -16,8 +16,7 @@ class CreateFechaHorasTable extends Migration
         Schema::create('fecha_horas', function (Blueprint $table) {
             $table->increments('id');
             $table->time('hora');
-            $table->date('fecha_inicio');
-            $table->date('fecha_fin');
+            $table->date('fecha');
         });
     }
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reserva extends Model
 {
     public $timestamps=false;
-    protected $fillable = ['estado','user_id','silla_id'];
+    protected $fillable = ['estado','user_id', 'proyeccion_id', 'silla_id'];
 
     public function silla()
     {
@@ -16,6 +16,11 @@ class Reserva extends Model
 
     public function user()
     {
-    	return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User');
+    }
+
+    public function proyeccion()
+    {
+        return $this->belongsTo('App\Proyeccion');
     }
 }

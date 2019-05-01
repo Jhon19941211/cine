@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Pelicula;
 use App\Sala;
 use App\Proyeccion;
+use App\Fecha_hora;
+use App\Reserva;
 
 class PeliculaController extends Controller
 {
@@ -67,11 +70,32 @@ class PeliculaController extends Controller
      */
     public function show($id)
     {
-        $proyeccion = Proyeccion::where('pelicula_id','=', $id)->get();
-        return response()->json(['proyeccion' => $proyeccion[0],
-                                'sala' => $proyeccion[0]->sala,
-                                'fecha_horas' => $proyeccion[0]->fecha_horas]);        
+        $fechas = array();
+        $date = Carbon::now();
+        $fin = Carbon::now()->endOfWeek();
+    
+        while (true) {
+            if ($date->day < $fin->day) {
+                array_push($fechas, $date->toDateString());                  
+                $date->addDay();  
+            }else{
+                array_push($fechas, $date->toDateString());
+                break;
+            }
+        }
+
+        $proyeccion = Proyeccion::with('fecha_hora')->where('pelicula_id','=', $id)->get();
+        return response()->json(['fechas' => $fechas, 'proyeccion' => $proyeccion]);      
     }
+
+    public function marcados($id, $id2){
+        $fh = Fecha_hora::where('hora', '=', $id2)->get();
+        $proyeccion = Proyeccion::where('fecha_hora_id', '=', $fh[0]->id)->where('pelicula_id', '=', $id)->get();
+        $reserva = Reserva::with('silla')->where('proyeccion_id', '=', $proyeccion[0]->id)->get();
+
+        return response()->json($reserva);  
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -81,7 +105,7 @@ class PeliculaController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**

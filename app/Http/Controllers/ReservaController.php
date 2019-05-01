@@ -44,12 +44,12 @@ class ReservaController extends Controller
 
             $data_reserva['estado'] = 1;
             $data_reserva['user_id'] = Auth::user()->id; 
-            $data_reserva['silla_id'] = $silla->id; 
+            $data_reserva['proyeccion_id'] = $request->proyeccion_id;
+            $data_reserva['silla_id'] = $silla->id;
                                    
             Reserva::create($data_reserva);
-
-            // return response()->json($valor); 
         }
+        return response()->json($request); 
     }
 
     /**

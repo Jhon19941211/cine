@@ -1,16 +1,5 @@
 @extends('app')
 @section('content')
-
-@if (session('success'))
-<div class="alert alert-success">
-  {{ session('success') }}
-</div>
-@endif
-@if (session('error'))
-<div class="alert alert-danger">
-  {{ session('error') }}
-</div>
-@endif
 <div>
 <a type="button" href="{{route('proyeccion.index')}}" class="btn btn-primary">Crear Proyección</a>
 <a type="button" href="{{route('list')}}" class="btn btn-secondary">Ver Proyecciones</a>
@@ -32,9 +21,12 @@
   <div class="form-group">
     <label for="pelicula">Pelicula</label>
     <select class="form-control" id="pelicula" name="pelicula">
-    <option selected>Seleccione</option>
-    @foreach($peliculas as $pelicula)
-      <option>{{$pelicula->nombre}}</option>
+    <option>Seleccione</option>
+    @foreach($peliculas as $movie)
+      @if($proyeccion->pelicula->nombre==$movie->nombre)
+      <option selected>{{$movie->nombre}}</option>
+      @endif
+      <option>{{$movie->nombre}}</option>
     @endforeach
     </select>
   </div>

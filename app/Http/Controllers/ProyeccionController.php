@@ -12,6 +12,30 @@ use Illuminate\Support\Facades\DB;
 
 class ProyeccionController extends Controller
 {
+     /**
+     * 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function listarPeliculas(){
+
+          $peliculas=Pelicula::all();
+
+          return response()->json($peliculas);
+        
+    }
+        /**
+     * 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function listarSalas(){
+
+        $salas=Sala::all();
+
+        return response()->json($salas);
+      
+  }
     /**
      * Display a listing of the resource.
      *
@@ -24,27 +48,32 @@ class ProyeccionController extends Controller
         return view('/administracion/add',['salas'=>$salas,'peliculas'=>$peliculas]);
     }
 
-
+    public function vistaProyeccion(){
+        return view('/administracion/list');
+    }
     public function listar()
     {
         //
         $proyecciones=Proyeccion::all();
-
-        $horarios=array();
-        foreach ($proyecciones as $proyeccion){
-          
-            $fecha_hora=DB::select('select * from fecha_horas where id = ?',[$proyeccion->fecha_hora_id]);
-                     
-            $aux=array(
-                "sala"=>$proyeccion->sala_id,
-                "fecha"=>  $fecha_hora[0]->fecha,
-                "hora"=> $fecha_hora[0]->hora
-            );
-            array_push($horarios,$aux);
-            
-        }
-
-        return view('/administracion/list',['horarios'=>$horarios]);
+       
+        return datatables()
+        ->eloquent(Proyeccion::query()->with('pelicula','fecha_hora'))
+        ->addColumn('action', function($proyecciones){
+            return
+            '<div class="row">'.
+            '<div class="col text-center">'. 
+            '<a  href="#" class="btn btn-primary btn-sm editar" 
+             data-id="'.$proyecciones ->id.'" 
+             data-hora="'.$proyecciones ->fecha_hora->hora.'"  
+             data-fecha="'.$proyecciones ->fecha_hora->fecha.'" 
+             data-pelicula="'.$proyecciones ->pelicula->nombre.'" 
+             data-sala="'.$proyecciones ->sala_id.'"  
+             data-toggle="modal" data-target="#edit" ><i class="nav-icon fa fa-edit"></i></a> '.
+            '<a href="#" onclick="btn_eliminar_proyeccion('. $proyecciones ->id .')" class="btn btn-danger btn-sm eliminar" ><i class="nav-icon fa fa-trash"></i></a>'.
+            '</div>'.
+            '</div>';
+        })  
+        ->toJson();
     }
 
     /**
@@ -56,26 +85,26 @@ class ProyeccionController extends Controller
     public function store(Request $request)
     {
         
-       
+     
         if($request->input('sala')=='Seleccione' || $request->input('pelicula')=='Seleccione' || $request->input('hora')=='Seleccione' ||
-           $request->input('fechainicio')==null ||  $request->input('fechafin')==null ){
+           $request->input('fecha')==null){
 
               return  redirect()->back()->with('error', 'Faltan campos!!'); 
         }
+       
+        $fecha_actual=date("Y-m-d");
+        if($request->input('fecha') < $fecha_actual ){
 
-        if($request->input('fechainicio') >  $request->input('fechafin') ){
-
-            return  redirect()->back()->with('error', 'La fecha inicio debe ser menor a la fecha final!!'); 
+            return  redirect()->back()->with('error', 'La fecha debe ser igual o mayor a la actual!!'); 
         }
+
         $hora_fecha= new Fecha_hora();
         
         //convierte a hora militar
         $hora = strtotime($request->input('hora'));
         $hora = date("H:i", $hora);
         $hora_fecha->hora=$hora;
-        $hora_fecha->fecha_inicio=$request->input('fechainicio');
-       
-        $hora_fecha->fecha_fin=$request->input('fechafin');
+        $hora_fecha->fecha=$request->input('fecha');
         $hora_fecha->save();
 
         //crear proyeccion
@@ -111,19 +140,34 @@ class ProyeccionController extends Controller
     public function edit($id)
     {
         //
+        $proyeccion=Proyeccion::find($id);
+        $salas=Sala::all();
+        $peliculas=Pelicula::all();
+        return view('administracion.edit',['proyeccion'=>$proyeccion,'salas'=>$salas,'peliculas'=>$peliculas]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function actualizar(Request $request)
     {
-        //
+       $proyeccion=Proyeccion::find((int) $request->get('id'));
+       $fecha_hora=Fecha_hora::find( $proyeccion->fecha_hora_id);
+        
+
+        $proyeccion->pelicula_id=$request->get('pelicula');
+        $proyeccion->sala_id=$request->get('sala');
+        $proyeccion->save();
+
+          $hora = strtotime($request->get('hora'));
+          $hora = date("H:i", $hora);
+          $fecha_hora->hora=$hora;
+         $fecha_hora->fecha=$request->get('fecha');
+         $fecha_hora->save();
+
+         return response()->json(['success'=>'Registro actualizado exitosamente..']);
+
+
+        
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -133,6 +177,8 @@ class ProyeccionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // 
+         Proyeccion::destroy($id);
+        return response()->json($id);
     }
 }
