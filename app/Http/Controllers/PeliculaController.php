@@ -70,27 +70,17 @@ class PeliculaController extends Controller
      */
     public function show($id)
     {
-        $fechas = array();
-        $date = Carbon::now();
-        $fin = Carbon::now()->endOfWeek();
-    
-        while (true) {
-            if ($date->day < $fin->day) {
-                array_push($fechas, $date->toDateString());                  
-                $date->addDay();  
-            }else{
-                array_push($fechas, $date->toDateString());
-                break;
-            }
+        $proyeccion = Proyeccion::orderBy('fecha_hora_id','ASC')->with('fecha_hora')->where('pelicula_id','=', $id)->get();
+        if(count($proyeccion)<1){
+            return response()->json('no');      
         }
-
-        $proyeccion = Proyeccion::with('fecha_hora')->where('pelicula_id','=', $id)->get();
-        return response()->json(['fechas' => $fechas, 'proyeccion' => $proyeccion]);      
+        return response()->json(['proyeccion' => $proyeccion]);      
     }
 
-    public function marcados($id, $id2){
-        $fh = Fecha_hora::where('hora', '=', $id2)->get();
-        $proyeccion = Proyeccion::where('fecha_hora_id', '=', $fh[0]->id)->where('pelicula_id', '=', $id)->get();
+    public function marcados($pelicula_id, $fecha, $hora){
+
+        $fecha_hora = Fecha_hora::where('fecha', '=', $fecha)->where('hora', '=', $hora)->get();
+        $proyeccion = Proyeccion::where('fecha_hora_id', '=', $fecha_hora[0]->id)->where('pelicula_id', '=', $pelicula_id)->get();
         $reserva = Reserva::with('silla')->where('proyeccion_id', '=', $proyeccion[0]->id)->get();
 
         return response()->json($reserva);  

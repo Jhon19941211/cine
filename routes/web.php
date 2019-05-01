@@ -34,7 +34,8 @@ Route::resource('proyeccion','ProyeccionController');
 
 Route::get('listar', 'ProyeccionController@listar');
 Route::get('/list', 'ProyeccionController@vistaProyeccion')->name('list');
-Route::get('marcados/{id}/{id2}', 'PeliculaController@marcados');
+
+Route::get('marcados/{id}/{id2}/{id3}', 'PeliculaController@marcados');
 
 Route::post('proyeccion/listar', 'ProyeccionController@listarPeliculas');
 Route::post('proyeccion/listarSalas', 'ProyeccionController@listarSalas');

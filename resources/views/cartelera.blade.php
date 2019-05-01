@@ -121,7 +121,18 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-  <button type="button" id="reservar" class="btn btn-primary">Reservar</button>
+  <!-- <button type="button" id="reservar" class="btn btn-primary">Reservar</button> -->
+  <form action="{{ route('pago') }}" method="POST">
+			{{ csrf_field() }}
+			<script
+			src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+			data-key="{{ config('services.stripe.key') }}"
+			data-name="Compra"
+			data-description="Boleta cine"
+			data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+			data-locale="auto">
+		  </script>
+	</form>
 </div>
 </div>
 </div>
