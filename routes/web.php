@@ -18,6 +18,7 @@ Route::get('/', function () {
 Route::get('/pago', function () {
     return view('/pago/pago');
 });
+
 Route::post('/pago', 'SuscripcionController@pago')->name('pago');
 
 Auth::routes();

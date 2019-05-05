@@ -212,10 +212,10 @@ $(".mycheckbox").click(function(e){
   }
 });
 
-
 //BOTON RESERVAR
+var objeto = {};
 $("#reservar").click(function(e){  
-
+  objeto={}
   var sala_id;
   var proyeccion_id;
   var fecha_hora_id;
@@ -255,30 +255,67 @@ $("#reservar").click(function(e){
     this.checked=false;
   });
 
+
   if (fecha != "" && hora!= "" && guardar.length > 0) {
-    
-    var objeto = {};
     objeto.datos = guardar;
     objeto.proyeccion_id = proyeccion_id;
 
-    $.ajax({
-      headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-      url: 'reserva',
-      dataType : 'json',
-      type: 'POST',
-      data: objeto,     
-      success: function(data){ 
-          toastr.success('', 'Acabas de reservar '+ guardar.length+' boletos para '+data);
-      }
+    handler.open({
+      name: 'Demo Site',
+      description: '2 widgets ($20.00)',
+      amount: 20000
     });
-    
-    $("#exampleModalScrollable").modal("hide");
   }else{
     toastr.error('', 'Digite los campos solicitados');
   }
 });
+
+
+var handler = StripeCheckout.configure({
+    key: 'pk_test_ug5ep55PVbUaE4QjH35CrUi600UDfCpKRN',
+    image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+    token: function(token) {
+        $("#stripeToken").val(token.id);
+        $("#stripeEmail").val(token.email);
+        
+        var t = $("#stripeToken").val();
+        var e = $("#stripeEmail").val();
+
+        $.ajax({
+          headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          url: 'pago',
+          dataType : 'json',
+          type: 'POST',
+          data: {
+            'stripeEmail': e,
+            'stripeToken': t
+          },    
+          success: function(data){ 
+            $.ajax({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+              url: 'reserva',
+              dataType : 'json',
+              type: 'POST',
+              data: objeto,     
+              success: function(data){ 
+                  toastr.success('', 'Acabas de reservar '+ objeto.datos.length+' boletos para '+data);
+              }
+            });
+            
+            $("#exampleModalScrollable").modal("hide");
+          }
+        })
+    }
+  });
+
+  // Close Checkout on page navigation
+  $(window).on('popstate', function() {
+    handler.close();
+  });
 
 // // imagenes
 // // https://image.tmdb.org/t/p/w500/

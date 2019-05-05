@@ -145,6 +145,10 @@
 {{-- TOAST ALERTAS --}}
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+{{-- CHECKOUT --}}
+<script src="https://checkout.stripe.com/checkout.js"></script>
+
+
 <!-- SCRIPT CARTELERA -->
 <script src="js/logica_cartelera.js"></script>
 <script src="js/logica_pelicula.js"></script>

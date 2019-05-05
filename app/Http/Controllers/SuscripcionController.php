@@ -11,7 +11,7 @@ class SuscripcionController extends Controller
 {
 	public function pago(Request $request)
 	{
-
+		// return response()->json($request->all()); 
 		try {
 			
 			Stripe::setApiKey(config('services.stripe.secret'));
@@ -23,11 +23,12 @@ class SuscripcionController extends Controller
 
 			$charge = Charge::create(array(
 				'customer' => $customer->id,
-				'amount' => 426636,
+				'amount' => 20000,
 				'currency' => 'mxn'
 			));
 
-			return 'Cargo exitoso!';
+			return response()->json('pago'); 
+			
 
 		}catch (\Exception $ex){
 
