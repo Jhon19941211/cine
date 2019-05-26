@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Auth;
 use App\Silla;
 use App\Reserva;
 use App\Proyeccion;
+use Illuminate\Support\Facades\DB;
+use PDF;
+use Carbon\Carbon;
+
+
+
 
 
 class ReservaController extends Controller
@@ -18,25 +24,23 @@ class ReservaController extends Controller
      */
     public function index()
     {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+       $reservas=   DB::table('reservas')
+              ->where('reservas.user_id',  Auth::user()->id)
+              ->join('proyeccions', 'reservas.proyeccion_id', '=', 'proyeccions.id')
+               ->join('peliculas', 'proyeccions.pelicula_id', '=', 'peliculas.id')
+               ->join('fecha_horas', 'proyeccions.fecha_hora_id', '=', 'fecha_horas.id')
+               ->select('reservas.id', 'peliculas.nombre', 'fecha_horas.fecha','fecha_horas.hora')
+               
+               ->get();
+         
+               return view('/reservas/list',['reservas'=>$reservas]);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+             
+      
+        
+    }
+   
     public function store(Request $request)
     {        
         foreach($request->datos as $dato => $valor) {
@@ -54,48 +58,25 @@ class ReservaController extends Controller
         return response()->json($nombre_pelicula); 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+   public function pdf($id){
+       
+    $reserva = DB::table('reservas')
+    ->where('reservas.id',$id)
+    ->join('proyeccions', 'reservas.proyeccion_id', '=', 'proyeccions.id')
+    ->join('peliculas', 'proyeccions.pelicula_id', '=', 'peliculas.id')
+    ->join('fecha_horas', 'proyeccions.fecha_hora_id', '=', 'fecha_horas.id')
+    ->select('reservas.id', 'peliculas.nombre', 'fecha_horas.fecha', 'fecha_horas.hora')
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    ->first();
+    $fecha= Carbon::now();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    $data = ['reserva' => $reserva,'fecha'=>$fecha,'email'=> Auth::user()->email,'nombre'=> Auth::user()->name,'id'=>$id];
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    $pdf = PDF::loadView('myPDF', $data);
+
+    return $pdf->download('reserva.pdf');
+
+
+   }
+
 }

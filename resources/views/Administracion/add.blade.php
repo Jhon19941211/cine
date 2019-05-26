@@ -34,7 +34,7 @@
     <select class="form-control" id="pelicula" name="pelicula">
     <option selected>Seleccione</option>
     @foreach($peliculas as $pelicula)
-      <option>{{$pelicula->nombre}}</option>
+      <option value="{{$pelicula->id}}">{{$pelicula->nombre}}</option>
     @endforeach
     </select>
   </div>
@@ -47,10 +47,6 @@
   <div class="form-group">
     <label for="hora">Hora</label>
     <select class="form-control" id="hora" name="hora">   
-       <option selected="true">Seleccione</option>
-       <option>06:00 PM</option>
-       <option>08:00 PM</option>
-       <option>10:00 PM</option>
      </select>
   </div>
 

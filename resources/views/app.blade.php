@@ -68,7 +68,7 @@
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
               @csrf
             </form>
-            <a class="dropdown-item" href="#">Configuración</a>
+    
           </div>
         </div>
         <button type="button" class="btn btn-light ">
@@ -94,9 +94,11 @@
         <strong><li class="header bg-light text-dark">MENÚ CINE</li></strong>
 
         <li><a style="color: black; text-decoration: none;" href="{{ route('cartelera.index') }}"><i class="fas fa-video">&nbsp;&nbsp;</i>Cartelera</a></li>
-        <li><a style="color: black; text-decoration: none;" href="#"><i class="fas fa-film">&nbsp;&nbsp;</i> Tus reservas</a></li>
+        <li><a style="color: black; text-decoration: none;" href="{{ route('reserva.index') }}"><i class="fas fa-film">&nbsp;&nbsp;</i> Tus reservas</a></li>
         <li><a style="color: black; text-decoration: none;" href="{{ route('user.index') }}"><i class="fas fa-users-cog">&nbsp;&nbsp;</i> Perfil</a></li>  
-        <li><a style="color: black; text-decoration: none;" href="{{ route('proyeccion.index') }}"><i class="fas fa-users-cog">&nbsp;&nbsp;</i> Administración</a></li>          
+        @if(Auth::user()->role==1)
+            <li><a style="color: black; text-decoration: none;" href="{{ route('proyeccion.index') }}"><i class="fas fa-chalkboard-teacher"></i>&nbsp;&nbsp;</i> Administración</a></li>          
+        @endif
       </ul>
     </section>    
   </aside>
@@ -153,6 +155,7 @@
 <script src="js/logica_cartelera.js"></script>
 <script src="js/logica_pelicula.js"></script>
 <script src="js/logica_proyeccion.js"></script>
+
 
 </body>
 </html>

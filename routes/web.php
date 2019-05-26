@@ -42,3 +42,10 @@ Route::post('proyeccion/listar', 'ProyeccionController@listarPeliculas');
 Route::post('proyeccion/listarSalas', 'ProyeccionController@listarSalas');
 Route::post('proyeccion/actualizar', 'ProyeccionController@actualizar')->name('actualizar');
 
+Route::post('proyeccion/disponibles/{sala}/{pelicula}/{fecha}', 'ProyeccionController@proyeccionesDisponibles');
+
+Route::get('reservas', 'ReservaController@listar');
+
+Route::get('generarpdf/{id}', 'ReservaController@pdf')->name('pdf');
+
+

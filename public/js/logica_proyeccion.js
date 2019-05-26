@@ -54,19 +54,16 @@ function btn_eliminar_proyeccion($id) {
 
 $('#edit').on('show.bs.modal', function(event) {
 
+    $(".alert-danger").empty();
+    jQuery('.alert-danger').hide();
     var button = $(event.relatedTarget)
 
-    var fecha = button.data('fecha')
-    var pelicula = button.data('pelicula')
-    var sala = button.data('sala');
+    var fechaoriginal = button.data('fecha')
+    var peliculaoriginal = button.data('pelicula')
+    var salaoriginal = button.data('sala');
     var hora = button.data('hora');
     var id = button.data('id');
-    console.log(id);
 
-    //operacion para hora
-    var res = hora.split(":");
-    var aux = (res[0] - 12) < 10 ? "0" + (res[0] - 12) + ':00 PM' : (res[0] - 12) + ':00 PM';
-    console.log(aux);
 
     $.ajaxSetup({
         headers: {
@@ -74,9 +71,9 @@ $('#edit').on('show.bs.modal', function(event) {
         }
     });
 
-    $("#sala").empty();
-    $("#pelicula").empty();
-    $("#hora").empty();
+    $("#salaeditar").empty();
+    $("#peliculaeditar").empty();
+    $("#horaeditar").empty();
 
     $.ajax({
         type: "POST",
@@ -84,10 +81,10 @@ $('#edit').on('show.bs.modal', function(event) {
         success: function(data) {
 
             data.forEach(function(registro, index) {
-                if (registro.id == sala) {
-                    $("#sala").append('<option selected=true value=' + registro.id + '>' + registro.id + '</option>');
+                if (registro.id == salaoriginal) {
+                    $("#salaeditar").append('<option selected=true value=' + registro.id + '>' + registro.id + '</option>');
                 } else {
-                    $("#sala").append('<option  value=' + registro.id + '>' + registro.id + '</option>');
+                    $("#salaeditar").append('<option  value=' + registro.id + '>' + registro.id + '</option>');
 
                 }
             });
@@ -98,29 +95,73 @@ $('#edit').on('show.bs.modal', function(event) {
         url: 'proyeccion/listar',
         success: function(data) {
             data.forEach(function(registro, index) {
-                if (registro.nombre == pelicula) {
-                    $("#pelicula").append('<option selected=true value=' + registro.id + '>' + registro.nombre + '</option>');
+                if (registro.id == peliculaoriginal) {
+                    $("#peliculaeditar").append('<option selected=true value=' + registro.id + '>' + registro.nombre + '</option>');
                 } else {
-                    $("#pelicula").append('<option  value=' + registro.id + '>' + registro.nombre + '</option>');
+                    $("#peliculaeditar").append('<option  value=' + registro.id + '>' + registro.nombre + '</option>');
 
                 }
             });
         }
     });
+    var aux = hora;
+    peticionSelecteditar(salaoriginal, peliculaoriginal, fechaoriginal, aux);
 
-    var horas = ['06:00 PM', '08:00 PM', '10:00 PM'];
 
-    for (let i = 0; i < horas.length; i++) {
+    $("#salaeditar").change(function() {
+        var sala = $(this).val();
+        var fecha = jQuery('#fechaeditar').val();
+        var pelicula = jQuery('#peliculaeditar').val();
+        $("#horaeditar").empty();
+        aux = "";
+        if (sala == salaoriginal && fecha == fechaoriginal && pelicula == peliculaoriginal) {
 
-        if (horas[i] == aux) {
-            $("#hora").append('<option selected=true >' + aux + '</option>');
-        } else {
-            $("#hora").append('<option  >' + horas[i] + '</option>');
+            sala = salaoriginal;
+            fecha = fechaoriginal;
+            pelicula = peliculaoriginal;
+            aux = hora;
+
         }
+        peticionSelecteditar(sala, pelicula, fecha, aux);
+    });
 
-    }
+    $("#peliculaeditar").change(function() {
+
+        $("#horaeditar").empty();
+        aux = "";
+        var pelicula = $(this).val();
+        var sala = jQuery('#salaeditar').val();
+        var fecha = jQuery('#fechaeditar').val();
+        if (sala == salaoriginal && fecha == fechaoriginal && pelicula == peliculaoriginal) {
+            sala = salaoriginal;
+            fecha = fechaoriginal;
+            pelicula = peliculaoriginal;
+            aux = hora;
+
+        }
+        peticionSelecteditar(sala, pelicula, fecha, aux);
+    });
+
+    $("#fechaeditar").change(function() {
+
+        $("#horaeditar").empty();
+        var fecha = $(this).val();
+        var sala = jQuery('#salaeditar').val();
+        var pelicula = jQuery('#peliculaeditar').val();
+        aux = "";
+
+        if (sala == salaoriginal && fecha == fechaoriginal && pelicula == peliculaoriginal) {
+
+            sala = salaoriginal;
+            fecha = fechaoriginal;
+            pelicula = peliculaoriginal;
+            aux = hora;
+
+        }
+        peticionSelecteditar(sala, pelicula, fecha, aux);
+    });
     var modal = $(this)
-    modal.find('.modal-body #fecha').val(fecha);
+    modal.find('.modal-body #fechaeditar').val(fechaoriginal);
     modal.find('.modal-body #id').val(id);
     console.log(id)
 
@@ -134,24 +175,26 @@ $('#ajaxSubmit').click(function(e) {
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
         }
     });
+
+
     $.ajax({
         url: 'proyeccion/actualizar',
         method: 'POST',
         data: {
-            hora: jQuery('#hora').val(),
-            pelicula: jQuery('#pelicula').val(),
-            fecha: jQuery('#fecha').val(),
-            sala: jQuery('#sala').val(),
+            hora: jQuery('#horaeditar').val(),
+            pelicula: jQuery('#peliculaeditar').val(),
+            fecha: jQuery('#fechaeditar').val(),
+            sala: jQuery('#salaeditar').val(),
             id: jQuery('#id').val(),
         },
         success: function(result) {
-            if (result.errors) {
-                jQuery('.alert-danger').html('');
 
-                jQuery.each(result.errors, function(key, value) {
-                    jQuery('.alert-danger').show();
-                    jQuery('.alert-danger').append('<li>' + value + '</li>');
-                });
+            console.log(result);
+            if (result.errors) {
+                $(".alert-danger").empty();
+                jQuery('.alert-danger').show();
+                jQuery('.alert-danger').append('<h6> La fecha debe ser igual o mayor a la actual </h6>');
+
             } else {
                 jQuery('.alert-danger').hide();
                 $('#open').hide();
@@ -165,3 +208,108 @@ $('#ajaxSubmit').click(function(e) {
 
 
 });
+
+
+$("#sala").change(function() {
+    var sala = $(this).val();
+    var fecha = jQuery('#fecha').val();
+    var pelicula = jQuery('#pelicula').val();
+    peticionSelect(sala, pelicula, fecha);
+});
+
+$("#pelicula").change(function() {
+
+    var pelicula = $(this).val();
+    var sala = jQuery('#sala').val();
+    var fecha = jQuery('#fecha').val();
+    peticionSelect(sala, pelicula, fecha);
+});
+
+$("#fecha").change(function() {
+
+    var fecha = $(this).val();
+    var sala = jQuery('#sala').val();
+    var pelicula = jQuery('#pelicula').val();
+
+    peticionSelect(sala, pelicula, fecha);
+
+});
+
+function peticionSelect(sala, pelicula, fecha) {
+
+    if (sala != "Seleccione" && fecha != "" && pelicula != "Seleccione") {
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "POST",
+            url: 'proyeccion/disponibles/' + sala + '/' + pelicula + '/' + fecha,
+            success: function(result) {
+                $("#hora").empty();
+                horas = ['18:00:00', '20:00:00', '22:00:00'];
+                if (result.length > 0) {
+                    result.forEach(function(elemento) {
+                        var index = horas.indexOf(elemento.hora);
+                        if (index > -1) {
+                            horas.splice(index, 1);
+                        }
+                    });
+
+
+                }
+                $("#hora").append('<option selected=true >' + 'Seleccione' + '</option>');
+                for (let i = 0; i < horas.length; i++) {
+                    $("#hora").append('<option  >' + horas[i] + '</option>');
+
+                }
+            },
+            error: function(error) {
+                console.log(error);
+            }
+
+        });
+    }
+}
+
+
+function peticionSelecteditar(sala, pelicula, fecha, aux) {
+
+    if (sala != "Seleccione" && fecha != "" && pelicula != "Seleccione") {
+
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "POST",
+            url: 'proyeccion/disponibles/' + sala + '/' + pelicula + '/' + fecha,
+            success: function(result) {
+
+                horas = ['18:00:00', '20:00:00', '22:00:00'];
+                if (result.length > 0) {
+                    result.forEach(function(elemento) {
+                        var index = horas.indexOf(elemento.hora);
+                        if (index > -1) {
+                            horas.splice(index, 1);
+                        }
+                    });
+
+                }
+                hora = aux;
+                $("#horaeditar").empty();
+                if (aux) {
+                    $("#horaeditar").append('<option selected=true>' + aux + '</option>');
+                    console.log(aux);
+                }
+                for (let i = 0; i < horas.length; i++) {
+                    $("#horaeditar").append('<option  >' + horas[i] + '</option>');
+
+                }
+            },
+            error: function(error) {
+                console.log(error);
+            }
+
+        });
+    }
+}

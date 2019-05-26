@@ -16,31 +16,33 @@
 <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-    <div class="alert alert-danger" style="display:none"></div>
+    
     <div class="alert alert-success" style="display:none"></div>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Editar Proyección</h4>
+        
       </div>
+      <div class="alert alert-danger" style="display:none"></div>
       <form >
       @csrf {{method_field('PATCH')}}
 	      <div class="modal-body">
+
         <input type="hidden" class="form-control" id="id" name="id">  
 
         <label for="sala">Sala</label>
-          <select class="form-control" id="sala" name="sala">
+          <select class="form-control" id="salaeditar" name="salaeditar">
           
           </select>
           <label for="pelicula">Pelicula</label>
-          <select class="form-control" id="pelicula" name="pelicula">
+          <select class="form-control" id="peliculaeditar" name="peliculaeditar">
           
           </select>
              <br>
             <label for="fecha">Fecha</label>
-            <input type="date" class="form-control" id="fecha" name="fecha">  
+            <input type="date" class="form-control" id="fechaeditar" name="fechaeditar">  
 
             <label for="hora">Hora</label>
-           <select class="form-control" id="hora" name="hora">
+           <select class="form-control" id="horaeditar" name="horaeditar">
           
           </select>
             

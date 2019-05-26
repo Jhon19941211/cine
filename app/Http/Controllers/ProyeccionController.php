@@ -12,6 +12,18 @@ use Illuminate\Support\Facades\DB;
 
 class ProyeccionController extends Controller
 {
+
+    public function proyeccionesDisponibles($sala,$pelicula,$fecha){
+
+        $proyecciones = DB::table('proyeccions')
+            ->where('proyeccions.sala_id', $sala)
+            ->where('proyeccions.pelicula_id', $pelicula)
+            ->join('fecha_horas', 'proyeccions.fecha_hora_id', '=', 'fecha_horas.id')
+             ->where('fecha_horas.fecha', $fecha)
+            ->get();
+
+         return response()->json($proyecciones);
+    }
      /**
      * 
      *
@@ -66,7 +78,7 @@ class ProyeccionController extends Controller
              data-id="'.$proyecciones ->id.'" 
              data-hora="'.$proyecciones ->fecha_hora->hora.'"  
              data-fecha="'.$proyecciones ->fecha_hora->fecha.'" 
-             data-pelicula="'.$proyecciones ->pelicula->nombre.'" 
+             data-pelicula="'.$proyecciones ->pelicula->id.'" 
              data-sala="'.$proyecciones ->sala_id.'"  
              data-toggle="modal" data-target="#edit" ><i class="nav-icon fa fa-edit"></i></a> '.
             '<a href="#" onclick="btn_eliminar_proyeccion('. $proyecciones ->id .')" class="btn btn-danger btn-sm eliminar" ><i class="nav-icon fa fa-trash"></i></a>'.
@@ -93,7 +105,8 @@ class ProyeccionController extends Controller
         }
        
         $fecha_actual=date("Y-m-d");
-        if($request->input('fecha') < $fecha_actual ){
+        
+        if($request->input('fecha') <$fecha_actual ){
 
             return  redirect()->back()->with('error', 'La fecha debe ser igual o mayor a la actual!!'); 
         }
@@ -112,9 +125,8 @@ class ProyeccionController extends Controller
         $proyeccion->fecha_hora_id=$hora_fecha->id;
 
        // $pelicula=Pelicula::where('nombre',$request->input('pelicula'));
-        $pelicula = DB::select('select * from peliculas where nombre = ?',[$request->input('pelicula')]);
         
-        $proyeccion->pelicula_id=$pelicula[0]->id;
+        $proyeccion->pelicula_id=$request->input('pelicula');
         $proyeccion->sala_id=$request->input('sala');
         $proyeccion->save();
       
@@ -151,6 +163,15 @@ class ProyeccionController extends Controller
        $proyeccion=Proyeccion::find((int) $request->get('id'));
        $fecha_hora=Fecha_hora::find( $proyeccion->fecha_hora_id);
         
+       $fecha_actual = date("Y-m-d");
+
+        if ($request->get('fecha') < $fecha_actual) {
+
+            return response()->json(['errors' => 'La hora debe ser igual o mayor a la actual']);
+
+
+        }
+
 
         $proyeccion->pelicula_id=$request->get('pelicula');
         $proyeccion->sala_id=$request->get('sala');
@@ -178,7 +199,7 @@ class ProyeccionController extends Controller
     public function destroy($id)
     {
         // 
-         Proyeccion::destroy($id);
+        Proyeccion::destroy($id);
         return response()->json($id);
     }
 }
